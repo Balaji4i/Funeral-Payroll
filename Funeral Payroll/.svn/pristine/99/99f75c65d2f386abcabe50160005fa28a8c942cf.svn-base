@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:f="http://java.sun.com/jsf/core">
+    <af:pageTemplate viewId="/oracle/apps/uikit/common/pageTemplates/MainPageTemplate.jspx" id="pt1">
+        <f:facet name="pageContents">
+            <af:panelGroupLayout id="pgl1" layout="vertical">
+                <af:panelSplitter id="ps1" orientation="vertical" splitterPosition="140" disabled="true">
+                    <f:facet name="first">
+                     
+                    </f:facet>
+                    
+                    <f:facet name="second">
+                        <af:panelBox text="Funeral Support Payroll Form" id="pb5" showDisclosure="false">
+                            <f:facet name="toolbar"/>
+                            <af:panelCollection id="pc1" styleClass="AFStretchWidth">
+                                <f:facet name="menus"/>
+                                <f:facet name="toolbar">
+                                      <af:toolbar id="t2" flex="10">
+                                        <af:button text="Submit" id="b3" disabled="#{bindings.Trans_Active.inputValue eq 'true' ? false : true }"
+                                                   actionListener="#{backingBeanScope.searchFuneral.onClickSubmit}"/>
+                                        <af:panelGroupLayout layout="vertical" id="pgl2">
+                                    <af:quickQuery id="qryId1" 
+                                               value="#{bindings.searchVcQuery.queryDescriptor}"
+                                                              model="#{bindings.searchVcQuery.queryModel}"
+                                                              queryListener="#{bindings.searchVcQuery.processQuery}"
+                                                              queryOperationListener="#{bindings.searchVcQuery.processQueryOperation}"/>
+                                            
+                                        </af:panelGroupLayout>
+                              <af:spacer width="10" height="10" id="s3"/>
+                                           <af:button text="Export to Excel" id="b1">
+                                                <af:exportCollectionActionListener type="excelHTML" exportedId="t1"
+                                                                                   filename="Funeral Support.xls"
+                                                                                   title="Funeral Support(All Rows)"/>
+                                            </af:button>
+                                            
+                                             <af:popup id="p1" contentDelivery="lazyUncached" clientComponent="true"
+                                          binding="#{backingBeanScope.searchFuneral.myPopup}">
+                                    <af:dialog title="" type="none" id="d2" >
+                                        <af:outputText  value="#{pageFlowScope.showMsg}"  
+                                                       binding="#{backingBeanScope.searchFuneral.messageBind}" id="ott2"
+                                                       partialTriggers="b3"/>
+                                        <f:facet name="buttonBar">
+                                            <af:panelGroupLayout layout="horizontal" halign="end" id="pgl3">
+                                                <af:button text="Ok"
+                                                           actionListener="#{backingBeanScope.searchFuneral.hidePopup}"
+                                                           id="bt2"/>
+                                            </af:panelGroupLayout>
+                                        </f:facet>
+                                    </af:dialog>
+                                </af:popup>
+                            </af:toolbar></f:facet>
+                                <f:facet name="statusbar"/>
+                                <af:table value="#{bindings.XXSSHR_FUNERAL_SUPPORT_VO.collectionModel}" var="row"
+                                          rows="#{bindings.XXSSHR_FUNERAL_SUPPORT_VO.rangeSize}"
+                                          emptyText="#{bindings.XXSSHR_FUNERAL_SUPPORT_VO.viewable ? 'No data to display.' : 'Access Denied.'}"
+                                          rowBandingInterval="0" scrollPolicy="page"
+                                          selectedRowKeys="#{bindings.XXSSHR_FUNERAL_SUPPORT_VO.collectionModel.selectedRow}"
+                                          selectionListener="#{bindings.XXSSHR_FUNERAL_SUPPORT_VO.collectionModel.makeCurrent}"
+                                          rowSelection="multiple"
+                                          fetchSize="#{bindings.XXSSHR_FUNERAL_SUPPORT_VO.rangeSize}" id="t1">
+                                    <af:column headerText="Active"
+                                               id="c6" width="50">
+                                        <af:selectBooleanCheckbox value="#{row.bindings.Trans_Active.inputValue}"
+                                                                  disabled="#{row.bindings.ApprovalStatus.inputValue ne 'APPROVED' ? true : false}"
+                                                                  label="#{row.bindings.Trans_Active.label}"
+                                                                  autoSubmit="true"
+                                                                  shortDesc="#{bindings.XXSSHR_FUNERAL_SUPPORT_VO.hints.Trans_Active.tooltip}"
+                                                                  id="sbc1"/>
+                                    </af:column>
+                                    <af:column headerText="Request Number" id="c1" width="150">
+                                        <af:outputText value="#{row.FuneralReqNo}" rendered="true"
+                                                       shortDesc="#{bindings.XXSSHR_FUNERAL_SUPPORT_VO.hints.FuneralReqNo.tooltip}"
+                                                       id="ot1">
+                                            <af:convertNumber groupingUsed="false"
+                                                              pattern="#{bindings.XXSSHR_FUNERAL_SUPPORT_VO.hints.FuneralReqNo.format}"/>
+                                        </af:outputText>
+                                    </af:column>
+                                    <af:column headerText="Employee Name"  width="200"
+                                               id="c7">
+                                        <af:outputText value="#{row.FullName}"
+                                                       shortDesc="#{bindings.XXSSHR_FUNERAL_SUPPORT_VO.hints.FullName.tooltip}"
+                                                       id="ot6"/>
+                                    </af:column>
+                                    <af:column headerText="Employee No"  width="150"
+                                               id="c8">
+                                        <af:outputText value="#{row.PersonNumber}"
+                                                       shortDesc="#{bindings.XXSSHR_FUNERAL_SUPPORT_VO.hints.PersonNumber.tooltip}"
+                                                       id="ot7">
+                                            <af:convertNumber groupingUsed="false"
+                                                              pattern="#{bindings.XXSSHR_FUNERAL_SUPPORT_VO.hints.PersonNumber.format}"/>
+                                        </af:outputText>
+                                    </af:column>
+                                    <af:column headerText="Request Date" width="200" id="c2">
+                                        <af:outputText value="#{row.RequestDate}"
+                                                       shortDesc="#{bindings.XXSSHR_FUNERAL_SUPPORT_VO.hints.RequestDate.tooltip}"
+                                                       id="ot2">
+                                            <af:convertDateTime pattern="dd-MMM-YY"/>
+                                        </af:outputText>
+                                    </af:column>
+                                    <af:column headerText="Dependent Type" width="200" id="c3">
+                                        <af:outputText value="#{row.DependentType}"
+                                                       shortDesc="#{bindings.XXSSHR_FUNERAL_SUPPORT_VO.hints.DependentType.tooltip}"
+                                                       id="ot3"/>
+                                    </af:column>
+                                    <af:column headerText="Entitlement Amount" width="150" id="c4">
+                                        <af:outputText value="#{row.EntitlementAmount}"
+                                                       shortDesc="#{bindings.XXSSHR_FUNERAL_SUPPORT_VO.hints.EntitlementAmount.tooltip}"
+                                                       id="ot4">
+                                            <af:convertNumber groupingUsed="false"
+                                                              pattern="#{sessionScope.NumberFormat}"/>
+                                        </af:outputText>
+                                    </af:column>
+                                    <af:column headerText="Approval Status" width="200" id="c5" >
+                                        <af:outputText value="#{row.ApprovalStatus}"
+                                                       shortDesc="#{bindings.XXSSHR_FUNERAL_SUPPORT_VO.hints.ApprovalStatus.tooltip}"
+                                                       id="ot5"/>
+                                    </af:column>
+                                    <af:column headerText="Delete" id="b11" rendered="false">
+                                        <af:button text="Delete" id="b2"
+                                                   actionListener="#{backingBeanScope.searchFuneral.onClickDelete}"/>
+                                    </af:column>
+                                </af:table>
+                            </af:panelCollection>
+                        </af:panelBox>
+                    </f:facet>
+                    
+                </af:panelSplitter>
+            </af:panelGroupLayout>
+        </f:facet>
+        <f:facet name="footerStart"/>
+        <f:facet name="footer"/>
+        <f:facet name="footerEnd"/>
+        <f:facet name="startPanel"/>
+        <f:facet name="endPanel"/>
+        <f:facet name="headerStart"/>
+        <f:facet name="header"/>
+        <f:facet name="headerEnd"/>
+    </af:pageTemplate>
+</jsp:root>
